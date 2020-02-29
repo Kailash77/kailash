@@ -61,6 +61,63 @@ while($posts->have_posts()) : $posts->the_post();?>
 <!-- END -->
 <?php endwhile; ?>
 
+or
+
+<!-- POST CREATING CODE  2nd Method-->
+<?php if(have_posts()){
+	while(have_posts()) {
+			the_post() ;
+
+
+
+
+			<?php
+
+	}
+}
+?>
+
+
+// endposts
+
+
+/* 				Custom logo		 */
+
+
+function custom_logo(){
+	$defaults = array(
+
+		'height' => 50,
+		'width'  => 177,
+		/* 'flex-width' =>true,
+		'flex-height' =>true,
+		'header-text' => array('site-title','site-description'), */
+	);
+	add_theme_support('custom_log0',$defaults) ;
+
+
+}
+
+add_action('after_setup_theme','custom_logo') ;
+
+
+/* Show into the page */
+
+<?php
+
+$img = get_blog_info('template_url').'path pf source folder'  ;   //For default logo
+
+$custom_logo_id  = get_theme_mod('template_url').'default img path' ;
+$logo = wp_get_attachment_image_src($custom_logo_id, 'full') ;
+if (has_custom logo ()) {
+	$img =esc_url($logo[0]) ;
+}
+?>
+
+
+
+
+
 <!-- CONTENT AND TITLE DYNAMIC CODE -->
 <?php echo get_the_title();?>
 <?php echo get_the_content();?>
@@ -103,19 +160,32 @@ while($posts->have_posts()) : $posts->the_post();?>
 
 <!-- NAVBER DYNAMIC CODE -->
 
-		                                <?php   wp_nav_menu( array(
-		                                    'theme_location'    => 'primary',
-		                                    'depth'             => 2,
-		                                    'container'         => 'ul',
-		                                    'container_class'   => '',
-		                                    'container_id'      => 'menu_main',
-		                                    'menu_class'        => 'menu_main_nav',
-		                                    'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
-		                                    'walker'            => new WP_Bootstrap_Navwalker())
+		                                <?php  
+						
+						function add_menu() {
+						wp_nav_menu( array(
+		                                    'primary-menu' => __('Primary-Menu') ,
+						    'footer-menu' =>__('Footer_menu')
+						    )
 		                                );
+						
+						add_action('init','add_menu') ;
+						
+						}
 		                                ?>
 
 
+
+
+<!--Display on a header -->
+<?php
+							wp_nav_menu(array(
+
+							 'menu' => 'primary-menu',
+						    'container' => '' ,
+						    'item-wrap'  =>'<ul class="classname">%3$s</ul>'
+						    ));
+?>
 
 <!-- Archives Code -->
 <?php
